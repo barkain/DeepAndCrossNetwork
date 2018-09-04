@@ -1,0 +1,42 @@
+filename: data/report_rtb_60_days_2018_08_07_edited.csv.gz
+features:
+    categorical:
+        - geo_state
+        - geo_country
+        - geo_city
+        - zip_code
+        - category_1
+        - domain
+        - app_bundle
+        - publisher_id
+        - device_type
+        - device_os
+        - device_os_version
+        - device_browser
+        - device_browser_version
+        - carrier
+        - language
+        - exchange_id
+        - banner_type
+        - account_campaign:
+                - account_id
+                - campaign_id
+        - account_banner:
+                - account_id
+                - banner_id
+        - account_advertiser:
+                - account_id
+                - advertiser_id
+        - account_offer:
+                - account_id
+                - offer_id
+    binary:
+        - is_interstitial
+        - is_mobile_web_optimized
+        - is_app
+    numerical:
+    cyclical:
+        - user_day_of_week
+        - user_hour
+    label: clicks
+    weight: impressions

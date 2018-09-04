@@ -1,0 +1,44 @@
+Deploy Keras model with TFServing
+
+1. Start nvidia docker with Jupyter notebook
+sudo nvidia-docker run -v /home/octopus/projects/rtb:/notebooks -it -p 8888:8888 tensorflow/tensorflow:1.10.0-gpu-py3
+
+2. Build keras model with tensorflow session
+
+3. Define model inputs and outputs 
+inputs = {x.name:x for x in model.inputs}
+outputs = {t.name:t for t in model.outputs}
+
+4. Save model to some path
+tf.saved_model.simple_save(
+    sess,
+    export_path,
+    inputs=inputs,
+    outputs=outputs)
+
+5. Deploy saved model
+sudo docker run -p 8501:8501 --mount type=bind,source=$(pwd)/models/dcnet,target=/models/dcnet -e MODEL_NAME=dcnet -t tensorflow/serving
+
+6. make predictions
+curl -d '{"instances":[{"account_advertiser:0": [1.0],                           
+  "account_banner:0": [2.0],
+  "account_campaign:0": [3.0],
+  "account_offer:0": [4.0],
+  "app_bundle:0": [5.0],
+  "banner_type:0": [1.0],
+  "carrier:0": [2.0],
+  "category_1:0":[1.0],
+  "device_browser:0": [1.0],
+  "device_browser_version:0": [2.0],
+  "device_os:0": [3.0],
+  "device_os_version:0": [3.0],
+  "device_type:0": [3.0],
+  "domain:0": [4.0],
+  "exchange_id:0": [5.0],
+  "geo_city:0": [1.0],
+  "geo_country:0": [1.0],
+  "geo_state:0": [2.0],
+  "language:0": [2.0],
+  "numeric_features:0": [[1.0,2.0,3.0,4.0,5.0,6.0,7.0]],
+  "publisher_id:0": [5.0],
+  "zip_code:0": [1.0]}]}' -X POST http://localhost:8501/v1/models/dcnet:predict
