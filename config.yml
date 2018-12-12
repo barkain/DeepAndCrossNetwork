@@ -1,4 +1,4 @@
-filename: data/report_rtb_60_days_2018_08_07_edited.csv.gz
+filename: ~/source/data/report_rtb_60_days_2018_08_07_edited.csv.gz
 features:
     categorical:
         - geo_state
